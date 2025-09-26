@@ -8,4 +8,7 @@ const userSchema = new mongoose.Schema({
     hobbies: [String]
 });
 
+
+
+
 module.exports = mongoose.model('User', userSchema);

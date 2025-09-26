@@ -37,6 +37,40 @@ app.get("/users", async (req, res) => {
 
 
 
+// DELETE user by _id
+app.delete("/users/:id", async (req, res) => {
+    try {
+        const deletedUser = await User.findByIdAndDelete(req.params.id);
+        if (!deletedUser) return res.status(404).json({ message: "User not found" });
+        res.json({ message: "User deleted", deletedUser });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+
+
+// UPDATE user by _id
+app.put("/users/:id", async (req, res) => {
+    try {
+        const updatedUser = await User.findByIdAndUpdate(
+            req.params.id,
+            req.body,       // fields to update
+            { new: true }   // return updated document instead of old
+        );
+
+        if (!updatedUser) return res.status(404).json({ message: "User not found" });
+        res.json({ message: "User updated", updatedUser });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+
+
+
+
+
 // Start server
 app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
